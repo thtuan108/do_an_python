@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block page_title %}Update your Profile{% endblock %} {% load static from static %} 
+<!--CSS for datepicker-->
+{% block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+{% endblock %} 
+
+{% block content %}
+<!--Profile details form-->
+<section class="profile-card-container">
+    <div class="card-container card-margin-top">
+        <div class="card-form card">
+            <div class="card-form-container">
+                <h3>Thông tin hồ sơ</h3>
+                <hr>
+                <p class="card-form-subtitle">Chỉnh sửa thông tin hồ sơ của bạn</p>
+                <form class="create-profile-form standard-form" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %} {{ profile_form }}
+                    <!--Profile photos form-->
+                    <label>Ảnh đại diện: </label> {{ formset.management_form }}
+                    <div class="profile-form-container">
+                        {% for form in formset %}
+                        <div id="field_{{form.id.id_for_label}}" class="profile-photo-container">
+
+                            <div {% if not form.initial.image %}style="display: none;" {% endif %} class="profile-delete-icon-container">
+                                <i onclick="delete_profile_photo( event, 'field_{{form.id.id_for_label}}' )" class="far fa-trash-alt"></i>
+                            </div>
+                            {{form}}
+                            <div class="profile-photo-overlay">
+                                <div class="profile-icon-container-absolute">
+                                    <div class="profile-icon-container-flex">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                </div>
+                                {% if form.initial.image %}
+                                <div class="profile-photo-image" style="background-image: url({{form.initial.image.url}})"></div>
+                                {% else %}
+                                <div class="profile-photo-image" style="background-image: none"></div>
+                                {% endif %}
+                            </div>
+
+                            {% for hidden in form %} {% if not 'image' in hidden.auto_id %}
+                            <input hidden class="delete-hidden-input" type="checkbox" name="delete" value="{{ hidden.value }}"> {% endif %} {% endfor %}
+
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="standard-form-submit">
+                        <input type="submit" value="CẬP NHẬT" class="submit-wide submit-success" name="message_submit">
+                        <img class="loading-image" src="{% static 'temp/34-1.gif' %}"></img>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %} {% block js %}
+<!--Nhúng thư viện date picker để chọn ngày tháng-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+
+{% endblock %}

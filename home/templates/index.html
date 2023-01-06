@@ -1,0 +1,16 @@
+{%extends 'base_preregister.html'%} {% load static from static %} {%block page_title%}UIT Dating App{%endblock%} {%block content%}
+
+<!--Index banner-->
+<section>
+    <div class="preregister-banner" style="background-image: url('{% static 'temp/preregister-banner.jpeg'%}')" class="jumbotron jumbotron-fluid">
+        <div class="standard-jumbotron-container container">
+            <h1 class="display-4">UIT Connect</h1>
+            <p class="lead">Lập trình cho trái tim</p>
+            <p class="lead">
+                <a class="btn standard-button btn-lg preregister-button" href="{% url 'register' %}" role="button">THAM GIA NGAY</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+{%endblock%}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block page_title %}Verification Message{% endblock %}{% block content %}
+
+
+<!--Verification information card-->
+<section class="profile-card-container">
+    <div class="card-container card-margin-top">
+        <div class="card-form card">
+            <div class="card-form-container">
+                <h3>Cập nhật tài khoản thành công</h3>
+                <hr>
+                <p>Thông tin tài khoản của bạn đã được cập nhật!</p>
+                <br>
+                <br>
+
+                <a class="btn standard-button" href="{% url 'index' %}">BẮT ĐẦU KHÁM PHÁ</a>
+
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

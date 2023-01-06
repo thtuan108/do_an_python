@@ -1,0 +1,121 @@
+{%extends 'base.html'%} {% load static from static %} {%block page_title%}Home{%endblock%} {%block content%}
+
+<!--Send message form modal-->
+<div class="modal fade" id="message-modal" tabindex="-1" role="dialog" aria-labelledby="message-modal-title" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="card-container">
+                <div class="card-form card">
+                    <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <div class="card-form-container">
+                        <h3 class="card-modal-title">Gửi tin nhắn</h3>
+                        <hr>
+                        <p class="card-form-subtitle">Bắt đầu trò chuyện</p>
+                        <form class="standard-form not-profile-page-message-form" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="csrfmiddlewaretoken" value="{% csrf_token %}">
+                            <input id="message-receiver-id" type="hidden" value="">
+                            <textarea cols="40" maxlength="500" rows="10" required="" id="message-input"></textarea>
+                            <input type="submit" class="submit-success" name="message_submit" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="heading-hr">
+    <span>GẦN BẠN</span>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        {% for profile in closest_profiles %}
+        <div class="card-container col-sm-12 col-md-6 col-lg-3">
+            <div class="card four-cards">
+                <a class="card-link card-link-wrapper" href="{% url 'member_profile' profile.user.id %}">
+                    <div class="card-img four-cards" style="background-image: url( {{ MEDIA_URL }}{{profile.user.profileimage_set.first.image}})" ></div>
+                    <div class="row username-container">
+                        <p class="col-9 card-username">{{profile.user.username}}</p>
+                        <p class="col-3 card-age">{{profile.age}}</p>
+                    </div>
+                    <div class="row interaction-container">
+                    <div class="interaction-wrapper">
+                        <i class="hidden-icon col-6 far fa-comment-alt grid-message"></i>
+                    </div>
+                    </a>
+                <a class="card-link card-link-left" data-username="{{profile.user.username}}" data-user-id="{{profile.user.id}}"><i class="col-6 far fa-comment-alt grid-message"></i></a>
+                <a class="card-link card-link-right" onclick="send_wink_grid_link({{profile.user.id}})"><i class="col-6 far fa-smile-wink grid-wink"></i></a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!--Active recently profiles-->
+<div class="heading-hr">
+    <span>HOẠT ĐỘNG GẦN ĐÂY</span>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        {% for profile in active_profiles %}
+        <div class="card-container col-sm-12 col-md-6 col-lg-3">
+            <div class="card four-cards">
+                <a class="card-link card-link-wrapper" href="{% url 'member_profile' profile.user.id %}">
+                    <div class="card-img four-cards" style="background-image: url( {{ MEDIA_URL }}{{profile.user.profileimage_set.first.image}})" ></div>
+                    <div class="row username-container">
+                        <p class="col-9 card-username">{{profile.user.username}}</p>
+                        <p class="col-3 card-age">{{profile.age}}</p>
+                    </div>
+                    <div class="row interaction-container">
+                    <div class="interaction-wrapper">
+                        <i class="hidden-icon col-6 far fa-comment-alt grid-message"></i>
+                    </div>
+                    </a>
+                <a class="card-link card-link-left" data-username="{{profile.user.username}}" data-user-id="{{profile.user.id}}"><i class="col-6 far fa-comment-alt grid-message"></i></a>
+                <a class="card-link card-link-right" onclick="send_wink_grid_link({{profile.user.id}})"><i class="col-6 far fa-smile-wink grid-wink"></i></a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+
+<!--Profiles joined recently-->
+<div class="heading-hr">
+    <span>THÀNH VIÊN MỚI</span>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        {% for profile in newest_profiles %}
+        <div class="card-container col-sm-12 col-md-6 col-lg-3">
+            <div class="card four-cards">
+                <a class="card-link card-link-wrapper" href="{% url 'member_profile' profile.user.id %}">
+                    <div class="card-img four-cards" style="background-image: url( {{ MEDIA_URL }}{{profile.user.profileimage_set.first.image}})" ></div>
+                    <div class="row username-container">
+                        <p class="col-9 card-username">{{profile.user.username}}</p>
+                        <p class="col-3 card-age">{{profile.age}}</p>
+                    </div>
+                    <div class="row interaction-container">
+                    <div class="interaction-wrapper">
+                        <i class="hidden-icon col-6 far fa-comment-alt grid-message"></i>
+                    </div>
+                </a>
+                <a class="card-link card-link-left" data-username="{{profile.user.username}}" data-user-id="{{profile.user.id}}"><i class="col-6 far fa-comment-alt grid-message"></i></a>
+                <a class="card-link card-link-right" onclick="send_wink_grid_link({{profile.user.id}})"><i class="col-6 far fa-smile-wink grid-wink"></i></a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+
+
+{%endblock%} {%block js%}
+<!--Necessary for draggable and droppable elements-->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+{%endblock%}
