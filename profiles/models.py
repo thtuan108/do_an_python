@@ -46,8 +46,8 @@ class Profile(models.Model):
         ('LI HÔN', 'Li hôn'),
     )
     GENDER = (
-        ("MALE", "Nam"),
-        ("FEMALE", "Nữ"))
+        ("NAM", "Nam"),
+        ("NỮ", "Nữ"))
     EDUCATION = (
     ('THPT', 'THPT'),
     ('CAO ĐẲNG', 'Cao đẳng'),

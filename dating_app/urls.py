@@ -35,5 +35,5 @@ urlpatterns = [
     url(r'subscribe/', include(subscribe_urls)),
     url(r'my-account/', include(account_urls)),
     url(r'search/', include(search_urls)),
-    url(r'media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}) 
+    url(r'media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT})
     ]
