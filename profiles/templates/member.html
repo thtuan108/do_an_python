@@ -1,0 +1,89 @@
+{% extends 'base.html' %} {% block page_title %}{{member.username}}'s Profile{% endblock %} {% load static from static %} {% block content %}
+<!--Ảnh hồ sơ-->
+<div class="profile-img-container">
+    <div class="icon-wink-form-container {% if current_user %}disabled-wink-container{% endif %}">
+        <button id="wink-receiver-input" {% if not current_user %}onclick="send_wink_grid_link({{ member.id }})" {% endif %}><i class="far fa-regular fa-heart"></i></button>
+    </div>
+    <!--Nút chỉnh sửa-->
+    {% if request.user.id == member.id %}
+    <div class="icon-edit-container">
+        <form action="{% url 'create_profile' %}">
+            <button><i class="far fa-edit"></i></button>
+        </form>
+    </div>
+    {% endif %}
+    <!--Ảnh hồ sơ-->
+    <div class="profile-img-draggable">
+        {% for image in member.profileimage_set.all %}
+        <img class="profile-img" src="{{image.image.url}}">
+        {% endfor %}
+    </div>
+</div>
+
+<section class="profile-card-container container">
+    <div class="row">
+        <div class="col-sm-12 profile-username">
+            <h2>{{member.username}}</h2>
+            <h3>{{member.profile.age}}</h3>
+        </div>
+        <div class="col-sm-12 col-md-7">
+            <div class="card-container">
+                <div class="card">
+                    <p>{{member.profile.bio}}</p>
+                </div>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <table class="standard-table">
+                        <tr>
+                            <td>Địa chỉ:</td>
+                            <td class="standard-table-feature">{{member.profile.location}}</td>
+                        </tr>
+                        <tr>
+                            <td>Giới tính:</td>
+                            <td class="standard-table-feature">{{member.profile.gender|title}}</td>
+                        </tr>
+                        <tr>
+                            <td>Tình trạng hôn nhân:</td>
+                            <td class="standard-table-feature">{{member.profile.relationship_status|title}}</td>
+                        </tr>
+                        <tr>
+                            <td>Học vấn:</td>
+                            <td class="standard-table-feature">{{member.profile.education|title}}</td>
+                        </tr>
+                        <tr>
+                            <td>Chiều cao:</td>
+                            <td class="standard-table-feature">{{height}}</td>
+                        </tr>
+                        <tr>
+                            <td>Đối tượng tìm kiếm:</td>
+                            <td class="standard-table-feature">{%if member.profile.looking_for == "BOTH" %}Nam & Nữ{% else %}{{member.profile.looking_for|title}}{% endif %}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-5">
+            <div class="card-container">
+                <div class="{% if current_user %}disabled-card{%endif%} card-form card">
+                    <div class="card-form-container">
+                        <h3>Trò chuyện với {{member.username}}</h3>
+                        <hr>
+                        <form class="standard-form" method="POST">
+                            {% csrf_token %} {% if current_user %}
+                            <label for="id_message_content">Nội dung tin nhắn:</label>
+                            <textarea disabled="" cols="40" rows="10" id="id_message_content" maxlength="500"></textarea>
+                            <input type="submit" disabled value="GỬI" class="disabled-button submit-wide submit-success" name="message_submit" /> {% else %} {{ message_form }}
+                            <input type="submit" value="GỬI TIN" class="submit-wide submit-success" name="message_submit" /> {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} {% block js %}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+{% endblock %}

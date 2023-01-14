@@ -1,0 +1,25 @@
+{% extends 'base_preregister.html' %} {% block page_title %}Register{% endblock %} {% block content %}
+<!--Form đăng ký-->
+<section class="profile-card-container">
+  <div class="card-container card-margin-top">
+    <div class="card-form card account-access-form">
+      <div class="card-form-container">
+        <h3>Đăng ký tài khoản</h3>
+        <hr>
+        <form class="standard-form" method="POST">
+          {% csrf_token %} 
+          {{registration_form}}
+          <button class="submit-wide submit-success" type="submit">Đăng ký</button>
+        </form>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-spacer">
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+{% endblock %}
